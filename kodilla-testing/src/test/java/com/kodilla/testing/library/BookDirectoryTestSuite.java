@@ -15,8 +15,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class BookDirectoryTestSuite {
     @Mock
+    private static LibraryUser libraryUserMock;
+    @Mock
     private LibraryDatabase libraryDatabaseMock;
-
 
     @Test
     void testListBooksWithConditionsReturnList() {
@@ -68,7 +69,6 @@ class BookDirectoryTestSuite {
     @Test
     void testListBooksWithConditionFragmentShorterThan3() {
         // Given
-        LibraryDatabase libraryDatabaseMock = mock(LibraryDatabase.class);
         BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
 
         // When
@@ -77,6 +77,48 @@ class BookDirectoryTestSuite {
         // Then
         assertEquals(0, theListOfBooks10.size());
         verify(libraryDatabaseMock, times(0)).listBooksWithCondition(anyString());
+    }
+
+    @Test
+    void testListBooksInHandsOfWithUserWithoutBooks() {
+        // Given
+        when(libraryDatabaseMock.listBooksInHandsOf(any(LibraryUser.class))).thenReturn(generateListOfNBooks(0));
+        BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
+
+        // When
+        List<Book> theListOfBooks0 = bookLibrary.listBooksInHandsOf(libraryUserMock);
+
+        // Then
+        assertEquals(0, theListOfBooks0.size());
+        verify(libraryDatabaseMock, times(1)).listBooksInHandsOf(libraryUserMock);
+    }
+
+    @Test
+    void testListBooksInHandsOfWithUserWithOneBook() {
+        // Given
+        when(libraryDatabaseMock.listBooksInHandsOf(any(LibraryUser.class))).thenReturn(generateListOfNBooks(1));
+        BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
+
+        // When
+        List<Book> theListOfBooks1 = bookLibrary.listBooksInHandsOf(libraryUserMock);
+
+        // Then
+        assertEquals(1, theListOfBooks1.size());
+        verify(libraryDatabaseMock, times(1)).listBooksInHandsOf(libraryUserMock);
+    }
+
+    @Test
+    void testListBooksInHandsOfWithUserWithFiveBooks() {
+        // Given
+        when(libraryDatabaseMock.listBooksInHandsOf(any(LibraryUser.class))).thenReturn(generateListOfNBooks(5));
+        BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
+
+        // When
+        List<Book> theListOfBooks5 = bookLibrary.listBooksInHandsOf(libraryUserMock);
+
+        // Then
+        assertEquals(5, theListOfBooks5.size());
+        verify(libraryDatabaseMock, times(1)).listBooksInHandsOf(libraryUserMock);
     }
 
     private List<Book> generateListOfNBooks(int booksQuantity) {
