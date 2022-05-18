@@ -1,20 +1,14 @@
 package com.kodilla.stream;
 
-import com.kodilla.stream.lambda.ExpressionExecutor;
-import com.kodilla.stream.lambda.FunctionalCalculator;
+import com.kodilla.stream.beautifier.PoemBeautifier;
+
+import javax.swing.*;
 
 public class StreamMain {
     public static void main(String[] args) {
-        ExpressionExecutor expressionExecutor = new ExpressionExecutor();
-
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a + b);
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a - b);
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a * b);
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a / b);
-
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::multiplyAByB);
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::addAToB);
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::subBFromA);
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::divideAByB);
+        System.out.println(PoemBeautifier.beautify("test", String::toUpperCase));
+        System.out.println(PoemBeautifier.beautify("test", string -> "abc" + string.toUpperCase()));
+        System.out.println(PoemBeautifier.beautify("test", string -> string.repeat(3)));
+        System.out.println(PoemBeautifier.beautify(" test4 ", string -> string.trim()));
     }
 }
