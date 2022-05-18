@@ -1,7 +1,6 @@
 package com.kodilla.testing.forum.statistics;
 
 public class AdvantageStatisticsCalculator {
-    //    liczbę użytkowników,
     private int postsCount;
     private int usersCount;
     private int commentsCount;
