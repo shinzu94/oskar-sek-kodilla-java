@@ -1,15 +1,19 @@
 package com.kodilla.stream;
 
-import com.kodilla.stream.beautifier.PoemBeautifier;
-import com.kodilla.stream.iterate.NumbersGenerator;
+import com.kodilla.stream.book.Book;
+import com.kodilla.stream.book.BookDirectory;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StreamMain {
     public static void main(String[] args) {
-        System.out.println(PoemBeautifier.beautify("test", String::toUpperCase));
-        System.out.println(PoemBeautifier.beautify("test", string -> "abc" + string.toUpperCase()));
-        System.out.println(PoemBeautifier.beautify("test", string -> string.repeat(3)));
-        System.out.println(PoemBeautifier.beautify(" test4 ", string -> string.trim()));
-        System.out.println("Using Stream to generate even numbers from 1 to 20");
-        NumbersGenerator.generateEven(20);
+        BookDirectory theBookDirectory = new BookDirectory();
+        String theResultStringOfBooks = theBookDirectory.getList().stream()  // [1]
+                .filter(book -> book.getYearOfPublication() > 2005)
+                .map(Book::toString)
+                .collect(Collectors.joining(",\n","<<",">>"));                    // [2]
+
+        System.out.println(theResultStringOfBooks);
     }
 }
