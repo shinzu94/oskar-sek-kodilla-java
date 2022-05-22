@@ -3,11 +3,14 @@ package com.kodilla.stream.portfolio;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BoardTestSuite {
 
@@ -141,5 +144,68 @@ class BoardTestSuite {
 
         //Then
         assertEquals(2, longTasks);
+    }
+
+
+    @Test
+    void testAddTaskListAverageWorkingOnTask() {
+        //Given
+        LocalDate now = LocalDate.now();
+        User user = new User("developer1", "John Smith");
+        Task task1 = new Task("Microservice for taking temperature",
+                "Write and test the microservice taking\n" +
+                        "the temperaure from external service",
+                user,
+                user,
+                LocalDate.now().minusDays(20),
+                LocalDate.now().plusDays(30));
+        Task task2 = new Task("HQLs for analysis",
+                "Prepare some HQL queries for analysis",
+                user,
+                user,
+                LocalDate.now().minusDays(20),
+                LocalDate.now().minusDays(5));
+        Task task3 = new Task("Temperatures entity",
+                "Prepare entity for temperatures",
+                user,
+                user,
+                LocalDate.now().minusDays(20),
+                LocalDate.now().plusDays(15));
+        Task task4 = new Task("Own logger",
+                "Refactor company logger to meet our needs",
+                user,
+                user,
+                LocalDate.now().minusDays(10),
+                LocalDate.now().plusDays(25));
+        Task task5 = new Task("Optimize searching",
+                "Archive data searching has to be optimized",
+                user,
+                user,
+                LocalDate.now(),
+                LocalDate.now().plusDays(5));
+        Task task6 = new Task("Use Streams",
+                "use Streams rather than for-loops in predictions",
+                user,
+                user,
+                LocalDate.now().minusDays(15),
+                LocalDate.now().minusDays(2));
+
+        TaskList inProgress = new TaskList("In progress");
+        inProgress.addTask(task1);
+        inProgress.addTask(task2);
+        inProgress.addTask(task3);
+        inProgress.addTask(task4);
+        inProgress.addTask(task5);
+        inProgress.addTask(task6);
+
+        //When
+        OptionalDouble averageTime = inProgress.getTasks().stream()
+                .mapToLong(x -> ChronoUnit.DAYS.between(x.getCreated(), now))
+                .average();
+        System.out.println(averageTime);
+
+        //Then
+        assertTrue(averageTime.isPresent());
+        assertEquals(14.16, averageTime.getAsDouble(), 0.009);
     }
 }
