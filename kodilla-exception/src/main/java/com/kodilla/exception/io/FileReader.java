@@ -1,22 +1,23 @@
 package com.kodilla.exception.io;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public class FileReader {
-    public void readFile() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("names.txt").getFile());
+    public void readFile() throws FileReaderException {
+        readFile("names.txt");
+    }
 
-        try (Stream<String> fileLines = Files.lines(Paths.get(file.getPath()))) {
+    public void readFile(final String fileName) throws FileReaderException {
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        try (Stream<String> fileLines = Files.lines(Path.of(classLoader.getResource(fileName).toURI()))) {
             fileLines.forEach(System.out::println);
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+        } catch (Exception exception) {
+            throw new FileReaderException();
         } finally {
-            System.out.print(file.getPath() + (file.exists() ? " exist." : " not exist"));
+            System.out.print("Exist or not exist");
         }
     }
 }
