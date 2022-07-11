@@ -1,22 +1,26 @@
 package com.kodilla.good.patterns.challenges.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.AbstractEntity;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Entity;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Id;
+import com.kodilla.good.patterns.challenges.repository.EntityRepositoryInterface;
+import com.kodilla.good.patterns.challenges.repository.ProductRepository;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 
 @Data
+@NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Product implements EntityInterface {
+@Entity(repository = ProductRepository.class)
+public class Product extends AbstractEntity {
     protected static Map<String, String> relations = new HashMap<>();
+    @Id
     private UUID uuid;
     @NonNull
     private String name;
@@ -44,18 +48,7 @@ public class Product implements EntityInterface {
     }
 
     @Override
-    public String generateId() {
-        return UUID.randomUUID().toString();
-    }
-
-    @Override
-    public Optional<String> getId() {
-        return uuid != null ? Optional.of(uuid.toString()) : Optional.empty();
-    }
-
-    @Override
-    public Product setId(String id) {
-        this.uuid = UUID.fromString(id);
-        return this;
+    public Class<? extends EntityRepositoryInterface> getRepositoryClass() {
+        return ProductRepository.class;
     }
 }

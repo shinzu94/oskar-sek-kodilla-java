@@ -1,8 +1,8 @@
 package com.kodilla.good.patterns.challenges.infrastructure;
 
-import com.kodilla.good.patterns.challenges.entity.EntityInterface;
 import com.kodilla.good.patterns.challenges.entity.OrderPosition;
 import com.kodilla.good.patterns.challenges.entity.Product;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.EntityInterface;
 import com.kodilla.good.patterns.challenges.model.OrderRequest;
 import com.kodilla.good.patterns.challenges.model.User;
 import com.kodilla.good.patterns.challenges.repository.ProductRepository;

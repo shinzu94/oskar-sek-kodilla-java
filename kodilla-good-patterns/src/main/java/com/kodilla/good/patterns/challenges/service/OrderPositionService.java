@@ -8,7 +8,6 @@ public class OrderPositionService {
     public boolean validateOrderPosition(OrderPosition orderPosition) {
         return orderPosition.getCount() > 0
                 && orderPosition.getProduct().getId().isPresent()
-                && !orderPosition.getProduct().getId().get().trim().equals("")
                 && orderPosition.getProduct().getPrice().compareTo(BigDecimal.ZERO) == 1;
     }
 }
