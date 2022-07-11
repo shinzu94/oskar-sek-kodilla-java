@@ -1,7 +1,9 @@
 package com.kodilla.good.patterns.challenges.infrastructure;
 
-import com.kodilla.good.patterns.challenges.repository.OrderRepository;
-import com.kodilla.good.patterns.challenges.repository.ProductRepository;
+import com.kodilla.good.patterns.challenges.infrastructure.dataSource.DataSource;
+import com.kodilla.good.patterns.challenges.infrastructure.dataSource.DataSourceInterface;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.EntityInterface;
+import com.kodilla.good.patterns.challenges.repository.*;
 import com.kodilla.good.patterns.challenges.service.ConsoleInformationService;
 import com.kodilla.good.patterns.challenges.service.InformationServiceInterface;
 import com.kodilla.good.patterns.challenges.service.OrderPositionService;
@@ -11,15 +13,28 @@ abstract public class ComponentRegistry {
     private static OrderService orderService;
     private static OrderPositionService orderPositionService;
     private static OrderRepository orderRepository;
+    private static OrderPositionRepository orderPositionRepository;
     private static ProductRepository productRepository;
     private static InformationServiceInterface informationServiceInterface;
     private static OrderRequestRetriever orderRequestRetriever;
+    private static DataSourceInterface dataSourceInterface;
+
+    public static EntityRepositoryInterface getRepository(Class<? extends EntityInterface> entityClass) {
+        return EntityRepository.of(entityClass);
+    }
 
     public static OrderRepository getOrderRepository() {
         if (null == orderRepository) {
             orderRepository = new OrderRepository();
         }
         return orderRepository;
+    }
+
+    public static OrderPositionRepository getOrderPositionRepository() {
+        if (null == orderPositionRepository) {
+            orderPositionRepository = new OrderPositionRepository();
+        }
+        return orderPositionRepository;
     }
 
     public static ProductRepository getProductRepository() {
@@ -55,5 +70,12 @@ abstract public class ComponentRegistry {
             orderRequestRetriever = new OrderRequestRetriever();
         }
         return orderRequestRetriever;
+    }
+
+    public static DataSourceInterface getDataSourceInterface() {
+        if (null == dataSourceInterface) {
+            dataSourceInterface = new DataSource();
+        }
+        return dataSourceInterface;
     }
 }

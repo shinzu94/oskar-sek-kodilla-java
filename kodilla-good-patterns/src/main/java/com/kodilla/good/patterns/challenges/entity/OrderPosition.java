@@ -1,28 +1,31 @@
 package com.kodilla.good.patterns.challenges.entity;
 
+import com.kodilla.good.patterns.challenges.infrastructure.entity.AbstractEntity;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Entity;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Id;
+import com.kodilla.good.patterns.challenges.repository.EntityRepositoryInterface;
+import com.kodilla.good.patterns.challenges.repository.OrderPositionRepository;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor()
 @RequiredArgsConstructor
-public class OrderPosition implements EntityInterface {
+@Entity(repository = OrderPositionRepository.class)
+public class OrderPosition extends AbstractEntity {
     protected static Map<String, String> relations = new HashMap<>();
+    @Id
     private UUID uuid;
     @NonNull
     private Product product;
     @NonNull
     private int count;
-
-    @Override
-    public String generateId() {
-        return UUID.randomUUID().toString();
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -45,14 +48,7 @@ public class OrderPosition implements EntityInterface {
     }
 
     @Override
-    public Optional<String> getId() {
-        return uuid != null ? Optional.of(uuid.toString()) : Optional.empty();
+    public Class<? extends EntityRepositoryInterface> getRepositoryClass() {
+        return OrderPositionRepository.class;
     }
-
-    @Override
-    public OrderPosition setId(String id) {
-        this.uuid = UUID.fromString(id);
-        return this;
-    }
-
 }

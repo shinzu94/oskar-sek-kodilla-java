@@ -6,12 +6,10 @@ import com.kodilla.good.patterns.challenges.model.OrderProcessDto;
 import com.kodilla.good.patterns.challenges.model.OrderRequest;
 import com.kodilla.good.patterns.challenges.service.InformationServiceInterface;
 import com.kodilla.good.patterns.challenges.service.OrderService;
-import lombok.AllArgsConstructor;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 public class OrderProcessor {
     private final OrderService orderService = ComponentRegistry.getOrderService();
     private final InformationServiceInterface informationService = ComponentRegistry.getInformationServiceInterface();
