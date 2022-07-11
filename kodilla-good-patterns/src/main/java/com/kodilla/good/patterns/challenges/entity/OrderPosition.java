@@ -6,26 +6,25 @@ import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Id;
 import com.kodilla.good.patterns.challenges.repository.EntityRepositoryInterface;
 import com.kodilla.good.patterns.challenges.repository.OrderPositionRepository;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor()
 @RequiredArgsConstructor
 @Entity(repository = OrderPositionRepository.class)
 public class OrderPosition extends AbstractEntity {
-    protected static Map<String, String> relations = new HashMap<>();
     @Id
     private UUID uuid;
     @NonNull
     private Product product;
-    @NonNull
     private int count;
+
+    public OrderPosition(@NonNull Product product, int count) {
+        this.product = product;
+        this.count = count;
+    }
 
     @Override
     public boolean equals(Object o) {

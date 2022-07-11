@@ -24,58 +24,98 @@ abstract public class ComponentRegistry {
     }
 
     public static OrderRepository getOrderRepository() {
-        if (null == orderRepository) {
-            orderRepository = new OrderRepository();
+        if (null != orderRepository) {
+            return orderRepository;
         }
-        return orderRepository;
+        synchronized (ComponentRegistry.class) {
+            if (null == orderRepository) {
+                orderRepository = new OrderRepository();
+            }
+            return orderRepository;
+        }
     }
 
     public static OrderPositionRepository getOrderPositionRepository() {
-        if (null == orderPositionRepository) {
-            orderPositionRepository = new OrderPositionRepository();
+        if (null != orderPositionRepository) {
+            return orderPositionRepository;
         }
-        return orderPositionRepository;
+        synchronized (ComponentRegistry.class) {
+            if (null == orderPositionRepository) {
+                orderPositionRepository = new OrderPositionRepository();
+            }
+            return orderPositionRepository;
+        }
     }
 
     public static ProductRepository getProductRepository() {
-        if (null == productRepository) {
-            productRepository = new ProductRepository();
+        if (null != productRepository) {
+            return productRepository;
         }
-        return productRepository;
+        synchronized (ComponentRegistry.class) {
+            if (null == productRepository) {
+                productRepository = new ProductRepository();
+            }
+            return productRepository;
+        }
     }
 
     public static OrderPositionService getOrderPositionService() {
-        if (null == orderPositionService) {
-            orderPositionService = new OrderPositionService();
+        if (null != orderPositionService) {
+            return orderPositionService;
         }
-        return orderPositionService;
+        synchronized (ComponentRegistry.class) {
+            if (null == orderPositionService) {
+                orderPositionService = new OrderPositionService();
+            }
+            return orderPositionService;
+        }
     }
 
     public static OrderService getOrderService() {
-        if (null == orderService) {
-            orderService = new OrderService();
+        if (null != orderService) {
+            return orderService;
         }
-        return orderService;
+        synchronized (ComponentRegistry.class) {
+            if (null == orderService) {
+                orderService = new OrderService();
+            }
+            return orderService;
+        }
     }
 
     public static InformationServiceInterface getInformationServiceInterface() {
-        if (null == informationServiceInterface) {
-            informationServiceInterface = new ConsoleInformationService();
+        if (null != informationServiceInterface) {
+            return informationServiceInterface;
         }
-        return informationServiceInterface;
+        synchronized (ComponentRegistry.class) {
+            if (null == informationServiceInterface) {
+                informationServiceInterface = new ConsoleInformationService();
+            }
+            return informationServiceInterface;
+        }
     }
 
     public static OrderRequestRetriever getOrderRequestRetriever() {
-        if (null == orderRequestRetriever) {
-            orderRequestRetriever = new OrderRequestRetriever();
+        if (null != orderRequestRetriever) {
+            return orderRequestRetriever;
         }
-        return orderRequestRetriever;
+        synchronized (ComponentRegistry.class) {
+            if (null == orderRequestRetriever) {
+                orderRequestRetriever = new OrderRequestRetriever();
+            }
+            return orderRequestRetriever;
+        }
     }
 
     public static DataSourceInterface getDataSourceInterface() {
-        if (null == dataSourceInterface) {
-            dataSourceInterface = new DataSource();
+        if (null != dataSourceInterface) {
+            return dataSourceInterface;
         }
-        return dataSourceInterface;
+        synchronized (ComponentRegistry.class) {
+            if (null == dataSourceInterface) {
+                dataSourceInterface = new DataSource();
+            }
+            return dataSourceInterface;
+        }
     }
 }

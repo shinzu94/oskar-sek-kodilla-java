@@ -25,14 +25,14 @@ public class OrderService {
     }
 
     private boolean validateOrder(Order order) {
-        boolean valid = !order.getOrderPositions().isEmpty();
-        if (valid) {
+        if (!order.getOrderPositions().isEmpty()) {
+            boolean valid;
             for (OrderPosition orderPosition : order.getOrderPositions()) {
                 valid = orderPositionService.validateOrderPosition(orderPosition);
-                if (!valid) break;
+                if (!valid) return false;
             }
         }
-        return valid;
+        return true;
     }
 
     private void savePositions(Order order) {

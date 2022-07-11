@@ -8,8 +8,6 @@ import com.kodilla.good.patterns.challenges.repository.ProductRepository;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -19,7 +17,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity(repository = ProductRepository.class)
 public class Product extends AbstractEntity {
-    protected static Map<String, String> relations = new HashMap<>();
     @Id
     private UUID uuid;
     @NonNull
