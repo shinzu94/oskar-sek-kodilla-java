@@ -36,11 +36,13 @@ public class EntityRepository implements EntityRepositoryInterface {
         if (entity.getId().isEmpty()) {
             String id = prepareIdForNewEntity(entity);
             entity.setId(id);
-            getMap().put(id, entity);
+            map.put(id, entity);
         } else {
-            entity.getId().ifPresent(id -> getMap().put(id, entity));
+            entity.getId().ifPresent(id -> map.put(id, entity));
         }
-        entity.getId().orElseThrow(() -> new RuntimeException("Order can't be save"));
+        if (entity.getId().isEmpty()) {
+            throw new RuntimeException("Order can't be save");
+        }
         return entity;
     }
 
@@ -48,23 +50,17 @@ public class EntityRepository implements EntityRepositoryInterface {
         String id;
         do {
             id = entity.generateId();
-        } while (getMap().containsKey(id));
+        } while (map.containsKey(id));
         return id;
     }
 
     @Override
     public Optional<EntityInterface> find(String id) {
-        return getMap().containsKey(id)
-                ? Optional.of(getMap().get(id))
-                : Optional.empty();
+        return Optional.ofNullable(map.getOrDefault(id, null));
     }
 
     @Override
     public Map<String, EntityInterface> findAll() {
-        return getMap();
-    }
-
-    protected Map<String, EntityInterface> getMap() {
         return map;
     }
 }

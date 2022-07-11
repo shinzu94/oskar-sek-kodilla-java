@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -20,7 +18,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Entity(repository = OrderRepository.class)
 public class Order extends AbstractEntity {
-    protected static Map<String, String> relations = new HashMap<>();
     @Id
     private UUID uuid;
     @NonNull
@@ -32,9 +29,7 @@ public class Order extends AbstractEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
-
         Order order = (Order) o;
-
         return (uuid.equals(order.uuid));
     }
 
