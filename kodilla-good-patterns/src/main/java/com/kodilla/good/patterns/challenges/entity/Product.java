@@ -3,7 +3,6 @@ package com.kodilla.good.patterns.challenges.entity;
 import com.kodilla.good.patterns.challenges.infrastructure.entity.AbstractEntity;
 import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Entity;
 import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Id;
-import com.kodilla.good.patterns.challenges.repository.EntityRepositoryInterface;
 import com.kodilla.good.patterns.challenges.repository.ProductRepository;
 import lombok.*;
 
@@ -42,10 +41,5 @@ public class Product extends AbstractEntity {
         result = 31 * result + name.hashCode();
         result = 31 * result + price.hashCode();
         return result;
-    }
-
-    @Override
-    public Class<? extends EntityRepositoryInterface> getRepositoryClass() {
-        return ProductRepository.class;
     }
 }

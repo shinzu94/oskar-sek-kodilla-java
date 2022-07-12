@@ -1,14 +1,16 @@
 package com.kodilla.good.patterns.challenges.infrastructure.entity.annotation;
 
-import com.kodilla.good.patterns.challenges.infrastructure.repository.EntityRepositoryInterface;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.EntityInterface;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface Entity {
-    Class<? extends EntityRepositoryInterface> repository();
+public @interface OneToOne {
+    CascadeType cascade() default CascadeType.None;
+
+    Class<? extends EntityInterface> targetEntity();
 }

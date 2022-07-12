@@ -16,28 +16,21 @@ public class OrderService {
 
     public Optional<Order> order(OrderRequest orderRequest) {
         Order order = new Order(orderRequest.getOrdersPositions(), orderRequest.getAddress());
-        if (validateOrder(order)) {
-            savePositions(order);
+        if (isCorrectOrder(order)) {
             orderRepository.save(order);
             return Optional.of(order);
         }
         return Optional.empty();
     }
 
-    private boolean validateOrder(Order order) {
+    private boolean isCorrectOrder(Order order) {
         if (!order.getOrderPositions().isEmpty()) {
             boolean valid;
             for (OrderPosition orderPosition : order.getOrderPositions()) {
-                valid = orderPositionService.validateOrderPosition(orderPosition);
+                valid = orderPositionService.isCorrectOrderPosition(orderPosition);
                 if (!valid) return false;
             }
         }
         return true;
-    }
-
-    private void savePositions(Order order) {
-        for (OrderPosition orderPosition : order.getOrderPositions()) {
-            orderPositionRepository.save(orderPosition);
-        }
     }
 }
