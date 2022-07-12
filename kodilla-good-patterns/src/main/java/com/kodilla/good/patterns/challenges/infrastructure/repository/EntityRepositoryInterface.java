@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges.repository;
+package com.kodilla.good.patterns.challenges.infrastructure.repository;
 
 import com.kodilla.good.patterns.challenges.infrastructure.entity.EntityInterface;
 

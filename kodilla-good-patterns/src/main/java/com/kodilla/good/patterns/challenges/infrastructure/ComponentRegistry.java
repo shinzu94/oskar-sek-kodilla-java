@@ -3,11 +3,19 @@ package com.kodilla.good.patterns.challenges.infrastructure;
 import com.kodilla.good.patterns.challenges.infrastructure.dataSource.DataSource;
 import com.kodilla.good.patterns.challenges.infrastructure.dataSource.DataSourceInterface;
 import com.kodilla.good.patterns.challenges.infrastructure.entity.EntityInterface;
-import com.kodilla.good.patterns.challenges.repository.*;
+import com.kodilla.good.patterns.challenges.infrastructure.repository.EntityRepository;
+import com.kodilla.good.patterns.challenges.infrastructure.repository.EntityRepositoryInterface;
+import com.kodilla.good.patterns.challenges.repository.OrderPositionRepository;
+import com.kodilla.good.patterns.challenges.repository.OrderRepository;
+import com.kodilla.good.patterns.challenges.repository.ProductRepository;
 import com.kodilla.good.patterns.challenges.service.ConsoleInformationService;
 import com.kodilla.good.patterns.challenges.service.InformationServiceInterface;
 import com.kodilla.good.patterns.challenges.service.OrderPositionService;
 import com.kodilla.good.patterns.challenges.service.OrderService;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Optional;
 
 abstract public class ComponentRegistry {
     private static OrderService orderService;
@@ -116,6 +124,34 @@ abstract public class ComponentRegistry {
                 dataSourceInterface = new DataSource();
             }
             return dataSourceInterface;
+        }
+    }
+
+    public static synchronized Object get(Class<?> className) {
+        Optional<Field> optionalField = Arrays.stream(ComponentRegistry.class.getDeclaredFields())
+                .filter(field -> field.getType().equals(className))
+                .limit(1)
+                .findAny();
+
+        Field field;
+        if (optionalField.isPresent()) {
+            field = optionalField.get();
+            try {
+                field.setAccessible(true);
+                if (null == field.get(null)) {
+                    Object instance = className.newInstance();
+                    field.set(null, instance);
+                } else if (!field.getType().equals(className)) {
+                    throw new RuntimeException("Exist component with same interface");
+                }
+                return field.get(null);
+            } catch (Exception exception) {
+                throw new RuntimeException("Exist component with same interface");
+            } finally {
+                field.setAccessible(false);
+            }
+        } else {
+            throw new RuntimeException("Component not exist");
         }
     }
 }

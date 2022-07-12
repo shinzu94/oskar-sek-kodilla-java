@@ -1,13 +1,13 @@
-package com.kodilla.good.patterns.challenges.infrastructure.entity.annotation;
+package com.kodilla.good.patterns.challenges.infrastructure.entity;
 
-import com.kodilla.good.patterns.challenges.infrastructure.entity.AbstractEntity;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Entity;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Id;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -15,15 +15,15 @@ abstract public class EntityInitializer {
 
     public static void init(final String projectPackage) {
         Reflections reflections = new Reflections(projectPackage, new SubTypesScanner(false));
-        long countOfIllegalClass = findIllegalUseOfEntityAnntotation(reflections);
+        long countOfIllegalClass = findIllegalUseOfEntityAnnotation(reflections);
         if (countOfIllegalClass > 0) {
             throw new RuntimeException("Annotation " + Entity.class.getName() + " can be use only by children of " + AbstractEntity.class.getName());
         }
         List<Class<? extends AbstractEntity>> classWithAnnotation = findLegalUseOfEntityAnnotation(reflections);
-        prepareIdAnnotation(classWithAnnotation);
+        ValidIdAnnotation(classWithAnnotation);
     }
 
-    private static void prepareIdAnnotation(List<Class<? extends AbstractEntity>> classWithAnnotation) {
+    private static void ValidIdAnnotation(List<Class<? extends AbstractEntity>> classWithAnnotation) {
         classWithAnnotation.forEach(oClass -> {
             List<Field> fieldsWithIdAnnotation = Arrays.stream(oClass.getDeclaredFields())
                     .filter(field -> field.isAnnotationPresent(Id.class))
@@ -37,24 +37,6 @@ abstract public class EntityInitializer {
             if (idField.getType() != UUID.class) {
                 throw new RuntimeException("Invalid type of Id");
             }
-
-            updateIdField(oClass, idField);
-        });
-    }
-
-    private static void updateIdField(Class oClass, Field idField) {
-        Optional<Field> optionalField = Arrays.stream(oClass.getSuperclass().getDeclaredFields())
-                .filter(field -> field.isAnnotationPresent(IdField.class))
-                .findFirst();
-
-        optionalField.ifPresent(field -> {
-            try {
-                field.setAccessible(true);
-                field.set(null, idField);
-                field.setAccessible(false);
-            } catch (Exception exception) {
-                throw new RuntimeException(exception.getMessage(), exception.getCause());
-            }
         });
     }
 
@@ -65,7 +47,7 @@ abstract public class EntityInitializer {
                 .collect(Collectors.toList());
     }
 
-    private static long findIllegalUseOfEntityAnntotation(Reflections reflections) {
+    private static long findIllegalUseOfEntityAnnotation(Reflections reflections) {
         return reflections.getSubTypesOf(Object.class)
                 .stream()
                 .filter(oClass -> oClass.isAnnotationPresent(Entity.class)

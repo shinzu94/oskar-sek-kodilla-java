@@ -1,9 +1,10 @@
 package com.kodilla.good.patterns.challenges.entity;
 
 import com.kodilla.good.patterns.challenges.infrastructure.entity.AbstractEntity;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.CascadeType;
 import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Entity;
 import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.Id;
-import com.kodilla.good.patterns.challenges.repository.EntityRepositoryInterface;
+import com.kodilla.good.patterns.challenges.infrastructure.entity.annotation.OneToOne;
 import com.kodilla.good.patterns.challenges.repository.OrderPositionRepository;
 import lombok.Data;
 import lombok.NonNull;
@@ -18,6 +19,7 @@ public class OrderPosition extends AbstractEntity {
     @Id
     private UUID uuid;
     @NonNull
+    @OneToOne(targetEntity = Product.class, cascade = CascadeType.Save)
     private Product product;
     private int count;
 
@@ -44,10 +46,5 @@ public class OrderPosition extends AbstractEntity {
         result = 31 * result + product.hashCode();
         result = 31 * result + count;
         return result;
-    }
-
-    @Override
-    public Class<? extends EntityRepositoryInterface> getRepositoryClass() {
-        return OrderPositionRepository.class;
     }
 }
