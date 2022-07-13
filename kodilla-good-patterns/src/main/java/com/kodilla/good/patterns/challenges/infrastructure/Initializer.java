@@ -5,14 +5,14 @@ import com.kodilla.good.patterns.challenges.infrastructure.repository.Repository
 
 abstract public class Initializer {
     public static final String PROJECT_PACKAGE = "com.kodilla.good.patterns.challenges";
-    private static Boolean isInit = false;
+    private static Boolean isInitialize = false;
 
     public static void init() {
-        if (!isInit) {
+        if (!isInitialize) {
             EntityInitializer.init(PROJECT_PACKAGE);
             RepositoryInitializer.init(PROJECT_PACKAGE);
 
-            isInit = true;
+            isInitialize = true;
         }
     }
 }

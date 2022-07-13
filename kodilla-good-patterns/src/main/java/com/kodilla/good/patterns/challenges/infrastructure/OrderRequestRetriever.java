@@ -17,7 +17,7 @@ public class OrderRequestRetriever {
     public OrderRequest retrieve() {
         Optional<EntityInterface> product = productRepository.find("12051952-eddd-493c-b75d-22ad90cea732");
         if (product.isEmpty()) {
-            throw new RuntimeException("Nie ma takiego produktu");
+            throw new RuntimeException("Nonexistent product");
         }
         List<OrderPosition> orderPositions = List.of(
                 new OrderPosition((Product) product.get(), 3)

@@ -8,17 +8,17 @@ abstract public class RepositoryInitializer {
 
     public static void init(final String projectPackage) {
         Reflections reflections = new Reflections(projectPackage, new SubTypesScanner(false));
-        long countOfIllegalClass = findIllegalUseOfRepositoryAnnotation(reflections);
-        if (countOfIllegalClass > 0) {
-            throw new RuntimeException("Annotation " + Repository.class.getName() + " can be use only by children of " + EntityRepository.class.getName());
-        }
+        validateIllegalUseOfRepositoryAnnotation(reflections);
     }
 
-    private static long findIllegalUseOfRepositoryAnnotation(Reflections reflections) {
-        return reflections.getSubTypesOf(Object.class)
+    private static void validateIllegalUseOfRepositoryAnnotation(Reflections reflections) {
+        long count = reflections.getSubTypesOf(Object.class)
                 .stream()
-                .filter(oClass -> oClass.isAnnotationPresent(Repository.class)
-                        && !oClass.getSuperclass().equals(EntityRepository.class))
+                .filter(oClass -> oClass.isAnnotationPresent(Repository.class))
+                .filter(oClass -> !oClass.getSuperclass().equals(EntityRepository.class) && !oClass.equals(EntityRepository.class))
                 .count();
+        if (count > 0) {
+            throw new RuntimeException("Annotation " + Repository.class.getName() + " can be use only by children of " + EntityRepository.class.getName());
+        }
     }
 }

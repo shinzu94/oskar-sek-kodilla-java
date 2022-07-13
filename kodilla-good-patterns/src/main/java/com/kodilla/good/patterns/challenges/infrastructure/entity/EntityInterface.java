@@ -5,7 +5,7 @@ import java.util.Optional;
 public interface EntityInterface {
     Optional<String> getId();
 
-    EntityInterface setId(String id);
+    void setId(String id);
 
     String generateId();
 }

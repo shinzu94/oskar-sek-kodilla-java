@@ -130,28 +130,26 @@ abstract public class ComponentRegistry {
     public static synchronized Object get(Class<?> className) {
         Optional<Field> optionalField = Arrays.stream(ComponentRegistry.class.getDeclaredFields())
                 .filter(field -> field.getType().equals(className))
-                .limit(1)
                 .findAny();
 
         Field field;
-        if (optionalField.isPresent()) {
-            field = optionalField.get();
-            try {
-                field.setAccessible(true);
-                if (null == field.get(null)) {
-                    Object instance = className.newInstance();
-                    field.set(null, instance);
-                } else if (!field.getType().equals(className)) {
-                    throw new RuntimeException("Exist component with same interface");
-                }
-                return field.get(null);
-            } catch (Exception exception) {
-                throw new RuntimeException("Exist component with same interface");
-            } finally {
-                field.setAccessible(false);
-            }
-        } else {
+        if (optionalField.isEmpty()) {
             throw new RuntimeException("Component not exist");
+        }
+        field = optionalField.get();
+        try {
+            field.setAccessible(true);
+            if (null == field.get(null)) {
+                Object instance = className.newInstance();
+                field.set(null, instance);
+            } else if (!field.getType().equals(className)) {
+                throw new RuntimeException("Exist component with same interface");
+            }
+            field.setAccessible(false);
+            return field.get(null);
+        } catch (Exception exception) {
+            field.setAccessible(false);
+            throw new RuntimeException(exception);
         }
     }
 }

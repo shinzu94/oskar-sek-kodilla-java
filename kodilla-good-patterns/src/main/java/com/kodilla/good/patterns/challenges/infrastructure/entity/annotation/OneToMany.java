@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface OneToMany {
-    CascadeType cascade() default CascadeType.None;
+    CascadeType cascade() default CascadeType.NONE;
 
     Class<? extends EntityInterface> targetEntity();
 }

@@ -47,7 +47,7 @@ public class DataSource implements DataSourceInterface {
         } else if (OrderPosition.class.equals(entityClass)) {
             return orderPositionMap;
         } else {
-            throw new RuntimeException("Unexist data type");
+            throw new RuntimeException("Nonexistent data type");
         }
     }
 

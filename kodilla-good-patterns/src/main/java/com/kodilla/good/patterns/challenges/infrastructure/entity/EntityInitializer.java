@@ -15,15 +15,13 @@ abstract public class EntityInitializer {
 
     public static void init(final String projectPackage) {
         Reflections reflections = new Reflections(projectPackage, new SubTypesScanner(false));
-        long countOfIllegalClass = findIllegalUseOfEntityAnnotation(reflections);
-        if (countOfIllegalClass > 0) {
-            throw new RuntimeException("Annotation " + Entity.class.getName() + " can be use only by children of " + AbstractEntity.class.getName());
-        }
+        validateIllegalUseOfEntityAnnotation(reflections);
+
         List<Class<? extends AbstractEntity>> classWithAnnotation = findLegalUseOfEntityAnnotation(reflections);
-        ValidIdAnnotation(classWithAnnotation);
+        validateIdAnnotation(classWithAnnotation);
     }
 
-    private static void ValidIdAnnotation(List<Class<? extends AbstractEntity>> classWithAnnotation) {
+    private static void validateIdAnnotation(List<Class<? extends AbstractEntity>> classWithAnnotation) {
         classWithAnnotation.forEach(oClass -> {
             List<Field> fieldsWithIdAnnotation = Arrays.stream(oClass.getDeclaredFields())
                     .filter(field -> field.isAnnotationPresent(Id.class))
@@ -47,11 +45,14 @@ abstract public class EntityInitializer {
                 .collect(Collectors.toList());
     }
 
-    private static long findIllegalUseOfEntityAnnotation(Reflections reflections) {
-        return reflections.getSubTypesOf(Object.class)
+    private static void validateIllegalUseOfEntityAnnotation(Reflections reflections) {
+        long countOfIllegalClass = reflections.getSubTypesOf(Object.class)
                 .stream()
-                .filter(oClass -> oClass.isAnnotationPresent(Entity.class)
-                        && !oClass.getSuperclass().equals(AbstractEntity.class))
+                .filter(oClass -> oClass.isAnnotationPresent(Entity.class))
+                .filter(oClass -> !oClass.getSuperclass().equals(AbstractEntity.class))
                 .count();
+        if (countOfIllegalClass > 0) {
+            throw new RuntimeException("Annotation " + Entity.class.getName() + " can be use only by children of " + AbstractEntity.class.getName());
+        }
     }
 }

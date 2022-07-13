@@ -12,7 +12,11 @@ abstract public class AbstractEntity implements EntityInterface {
     @Override
     public Optional<String> getId() {
         try {
-            Field field = getIdField().get();
+            Optional<Field> optionalIdField = getIdField();
+            if (optionalIdField.isEmpty()) {
+                throw new RuntimeException("Id field not exist");
+            }
+            Field field = optionalIdField.get();
             if (field.getType() == UUID.class) {
                 field.setAccessible(true);
                 UUID idValue = (UUID) field.get(this);
@@ -30,9 +34,13 @@ abstract public class AbstractEntity implements EntityInterface {
     }
 
     @Override
-    public EntityInterface setId(String id) {
+    public void setId(String id) {
         try {
-            Field field = getIdField().get();
+            Optional<Field> optionalIdField = getIdField();
+            if (optionalIdField.isEmpty()) {
+                throw new RuntimeException("Id field not exist");
+            }
+            Field field = optionalIdField.get();
             if (field.getType() == UUID.class) {
                 UUID idValue = UUID.fromString(id);
                 field.setAccessible(true);
@@ -44,13 +52,16 @@ abstract public class AbstractEntity implements EntityInterface {
         } catch (Exception exception) {
             throw new RuntimeException(exception.getMessage(), exception.getCause());
         }
-        return this;
     }
 
     public String generateId() {
         String result = null;
         try {
-            Field field = getIdField().get();
+            Optional<Field> optionalIdField = getIdField();
+            if (optionalIdField.isEmpty()) {
+                throw new RuntimeException("Id field not exist");
+            }
+            Field field = optionalIdField.get();
             if (field.getType() == UUID.class) {
                 field.setAccessible(true);
                 UUID idValue = (UUID) field.get(this);
