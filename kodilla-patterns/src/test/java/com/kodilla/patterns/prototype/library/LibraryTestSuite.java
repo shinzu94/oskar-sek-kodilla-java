@@ -6,11 +6,10 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LibraryTestSuite {
     @Test
-    void testGetBooks() {
+    void testGetBooks() throws CloneNotSupportedException {
         //GIVEN
         Library library = new Library("Library");
         Set<Book> books = library.getBooks();
@@ -20,32 +19,16 @@ public class LibraryTestSuite {
         books.add(firstBook);
         books.add(secondBook);
         books.add(thirdBook);
-        Exception exception = null;
 
         //WHEN
-        Library clonedLibrary = null;
-        try {
-            clonedLibrary = library.shallowCopy();
-            clonedLibrary.setName("Library 2");
-        } catch (CloneNotSupportedException e) {
-            System.out.println(e);
-            exception = e;
-        }
-
-        //making a deep copy of object board
-        Library deepClonedBoard = null;
-        try {
-            deepClonedBoard = library.deepCopy();
-            deepClonedBoard.setName("Library 3");
-        } catch (CloneNotSupportedException e) {
-            System.out.println(e);
-            exception = e;
-        }
+        Library clonedLibrary = library.shallowCopy();
+        clonedLibrary.setName("Library 2");
+        Library deepClonedBoard = library.deepCopy();
+        deepClonedBoard.setName("Library 3");
 
         library.getBooks().remove(thirdBook);
 
         //THEN
-        assertNull(exception);
         assertEquals(2, library.getBooks().size());
         assertEquals(2, clonedLibrary.getBooks().size());
         assertEquals(3, deepClonedBoard.getBooks().size());
