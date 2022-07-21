@@ -43,7 +43,6 @@ public class UserTestSuite {
 
         zGenerationUser.sharePost();
         String zGenerationUserShare = outputStreamCaptor.toString().trim();
-        outputStreamCaptor.reset();
 
         //THEN
         assertEquals("Facebook", millenialsUserShare);
@@ -60,7 +59,6 @@ public class UserTestSuite {
         millenialsUser.setPreferredSocialPublisher(new TwitterPublisher());
         millenialsUser.sharePost();
         String millenialsUserShare = outputStreamCaptor.toString().trim();
-        outputStreamCaptor.reset();
 
         //THEN
         assertEquals("Twitter", millenialsUserShare);
