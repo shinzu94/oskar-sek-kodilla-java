@@ -4,12 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public class PaintingTask implements Task {
-    @Getter
     private final String taskName;
     private final String color;
     private final String whatToPaint;
-    @Getter
     private boolean taskExecuted;
 
     @Override

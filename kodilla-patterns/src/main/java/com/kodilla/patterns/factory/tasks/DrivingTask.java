@@ -4,12 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public class DrivingTask implements Task {
-    @Getter
     private final String taskName;
     private final String where;
     private final String using;
-    @Getter
     private boolean taskExecuted;
 
     @Override
