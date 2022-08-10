@@ -1,0 +1,81 @@
+create table ISSUESLISTS
+(
+    ID   bigint unsigned auto_increment not null unique,
+    NAME TINYTEXT                       not null,
+    constraint ID_PRIMARYKEY
+        primary key (ID),
+    constraint NAME_CANT_BE_EMPTY
+        check (LENGTH(TRIM(NAME)) > 0)
+) auto_increment = 0;
+
+create table ISSUES
+(
+    ID                 bigint unsigned auto_increment not null unique,
+    ISSUESLIST_ID      bigint unsigned                not null,
+    SUMMARY            text                           not null,
+    DESCRIPTION        varchar(10000)                 null,
+    USER_ID_ASSIGNEDTO bigint unsigned                not null,
+    constraint ID_PRIMARYKEY
+        primary key (ID),
+    constraint ISSUES_ISSUESLIST
+        foreign key (ISSUESLIST_ID) references ISSUESLISTS (ID),
+    constraint ISSUES_USERS
+        foreign key (USER_ID_ASSIGNEDTO) references USERS (ID),
+    constraint SUMMARY_MUST_BE_GREATER_OR_EQUAL_THAN_5
+        check (LENGTH(TRIM(SUMMARY)) >= 5)
+) auto_increment = 0;
+
+INSERT INTO ISSUESLISTS (NAME)
+VALUES ('ToDo');
+
+INSERT INTO ISSUESLISTS (NAME)
+VALUES ('In progress');
+
+INSERT INTO ISSUESLISTS (NAME)
+VALUES ('Done');
+
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (1, 'Task1', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (1, 'Task2', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (1, 'Task3', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (1, 'Task4', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (1, 'Task5', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (2, 'Task6', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (2, 'Task7', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (2, 'Task8', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (2, 'Task9', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (2, 'Task10', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (3, 'Task11', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (3, 'Task12', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (3, 'Task13', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (3, 'Task14', 1);
+
+INSERT INTO ISSUES (ISSUESLIST_ID, SUMMARY, USER_ID_ASSIGNEDTO)
+VALUES (3, 'Task15', 1);
