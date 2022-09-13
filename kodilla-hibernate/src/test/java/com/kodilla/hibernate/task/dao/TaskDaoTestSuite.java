@@ -1,6 +1,6 @@
-package com.example.hibernate.task.dao;
+package com.kodilla.hibernate.task.dao;
 
-import com.example.hibernate.task.Task;
+import com.kodilla.hibernate.task.Task;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,4 +51,6 @@ class TaskDaoTestSuite {
         int id = readTasks.get(0).getId();
         taskDao.deleteById(id);
     }
+
+
 }
