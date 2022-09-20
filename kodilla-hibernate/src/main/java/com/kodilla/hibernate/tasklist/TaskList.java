@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -24,5 +25,6 @@ public class TaskList {
     public TaskList(String listName, String description) {
         this.listName = listName;
         this.description = description;
+        tasks = new LinkedList();
     }
 }

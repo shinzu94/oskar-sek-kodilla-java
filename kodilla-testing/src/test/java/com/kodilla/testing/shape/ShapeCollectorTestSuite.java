@@ -1,9 +1,12 @@
 package com.kodilla.testing.shape;
 
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ShapeCollectorTestSuite {
     private static final Shape triangle = new Triangle(5, 4, 7);

@@ -3,10 +3,7 @@ package com.kodilla.hibernate.manytomany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -14,8 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Employee {
-    @ManyToMany(mappedBy = "employees")
-    public List<Company> companies;
     @Id
     @GeneratedValue
     @NotNull
@@ -24,6 +19,8 @@ public class Employee {
     private String firstname;
     @NotNull
     private String lastname;
+    @ManyToMany(mappedBy = "employees")
+    public List<Company> companies;
 
     public Employee(String firstname, String lastname) {
         this.firstname = firstname;

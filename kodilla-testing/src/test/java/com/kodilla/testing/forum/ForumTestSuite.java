@@ -6,16 +6,6 @@ import org.junit.jupiter.api.*;
 @DisplayName("Forum Test Suite")
 public class ForumTestSuite {
 
-    @BeforeEach
-    public void before() {
-        System.out.println("Test Case: begin");
-    }
-
-    @AfterEach
-    public void after() {
-        System.out.println("Test Case: end");
-    }
-
     @BeforeAll
     public static void beforeAll() {
         System.out.println("Test Suite: begin");
@@ -24,6 +14,16 @@ public class ForumTestSuite {
     @AfterAll
     public static void afterAll() {
         System.out.println("Test Suite: end");
+    }
+
+    @BeforeEach
+    public void before() {
+        System.out.println("Test Case: begin");
+    }
+
+    @AfterEach
+    public void after() {
+        System.out.println("Test Case: end");
     }
 
     @DisplayName("when create SimpleUser with realName, " +
