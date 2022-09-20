@@ -1,7 +1,7 @@
 create table ISSUESLISTS
 (
     ID   bigint unsigned auto_increment not null unique,
-    NAME TINYTEXT                       not null,
+    NAME TINYTEXT not null,
     constraint ID_PRIMARYKEY
         primary key (ID),
     constraint NAME_CANT_BE_EMPTY
@@ -11,10 +11,10 @@ create table ISSUESLISTS
 create table ISSUES
 (
     ID                 bigint unsigned auto_increment not null unique,
-    ISSUESLIST_ID      bigint unsigned                not null,
-    SUMMARY            text                           not null,
-    DESCRIPTION        varchar(10000)                 null,
-    USER_ID_ASSIGNEDTO bigint unsigned                not null,
+    ISSUESLIST_ID      bigint unsigned not null,
+    SUMMARY            text not null,
+    DESCRIPTION        varchar(10000) null,
+    USER_ID_ASSIGNEDTO bigint unsigned not null,
     constraint ID_PRIMARYKEY
         primary key (ID),
     constraint ISSUES_ISSUESLIST

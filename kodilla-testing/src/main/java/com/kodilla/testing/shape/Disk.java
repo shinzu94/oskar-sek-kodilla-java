@@ -1,8 +1,8 @@
 package com.kodilla.testing.shape;
 
-public class Disk implements Shape{
+public class Disk implements Shape {
     private static final String NAME = "Disk";
-    private double radius;
+    private final double radius;
 
     public Disk(double radius) {
         this.radius = radius;

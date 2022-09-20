@@ -11,6 +11,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Company {
+    @Id
+    @GeneratedValue
+    @NotNull
+    private int id;
+    @NotNull
+    private String name;
     @ManyToMany
     @JoinTable(
             name = "JOIN_COMPANY_EMPLOYEE",
@@ -18,12 +24,6 @@ public class Company {
             inverseJoinColumns = {@JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")}
     )
     public List<Employee> employees;
-    @Id
-    @GeneratedValue
-    @NotNull
-    private int id;
-    @NotNull
-    private String name;
 
     public Company(String name) {
         this.name = name;
