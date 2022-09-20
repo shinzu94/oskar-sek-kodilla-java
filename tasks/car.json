@@ -1,0 +1,23 @@
+{
+  "name": "aygo",
+  "brand": "toyota",
+  "engineCapacity": 3.0,
+  "seats": [
+    {
+      "material": "skin",
+      "color": "brown"
+    },
+    {
+      "material": "skin",
+      "color": "brown"
+    },
+    {
+      "material": "skin",
+      "color": "brown"
+    },
+    {
+      "material": "skin",
+      "color": "brown"
+    }
+  ]
+}
