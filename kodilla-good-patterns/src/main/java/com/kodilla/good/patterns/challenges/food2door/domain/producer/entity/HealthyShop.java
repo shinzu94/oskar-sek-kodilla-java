@@ -17,7 +17,6 @@ public class HealthyShop implements Producer {
     public synchronized OrderDto process(ProducerOrderRequest orderRequest) {
         if (checkAvailabilitiesOfProducts(orderRequest.getProductOrderList())) {
             changeAvailabilities(orderRequest.getProductOrderList());
-//            productsAvailability.get()
         }
         throw new RuntimeException("Not implemented");
     }
