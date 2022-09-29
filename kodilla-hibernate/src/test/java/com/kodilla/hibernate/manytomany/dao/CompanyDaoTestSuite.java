@@ -63,9 +63,9 @@ class CompanyDaoTestSuite {
 
         //CleanUp
         try {
-            companyDao.deleteById(softwareMachineId);
-            companyDao.deleteById(stephanieClarcksonId);
-            companyDao.deleteById(lindaKovalskyId);
+            companyDao.delete(softwareMachine);
+            companyDao.delete(greyMatter);
+            companyDao.delete(dataMaesters);
 
             employeeDao.deleteById(johnSmithId);
             employeeDao.deleteById(stephanieClarcksonId);
