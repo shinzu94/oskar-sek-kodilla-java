@@ -8,6 +8,12 @@ import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Company.findByName",
+                query = "FROM Company WHERE name like :name"
+        )
+})
 
 @NamedNativeQuery(
         name = "Company.findByFirstThreeLetters",
