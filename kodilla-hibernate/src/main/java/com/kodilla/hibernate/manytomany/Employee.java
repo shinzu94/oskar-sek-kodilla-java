@@ -15,6 +15,10 @@ import java.util.List;
                 query = "FROM Employee WHERE lastname = :lastname"
 
         ),
+        @NamedQuery(
+                name = "Employee.findByName",
+                query = "FROM Employee WHERE concat(firstname, ' ', lastname) like :name"
+        )
 })
 @Entity
 @Setter
@@ -29,7 +33,7 @@ public class Employee {
     private String firstname;
     @NotNull
     private String lastname;
-    @ManyToMany(mappedBy = "employees", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "employees", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Company> companies = new LinkedList<>();
 
     public Employee(String firstname, String lastname) {
