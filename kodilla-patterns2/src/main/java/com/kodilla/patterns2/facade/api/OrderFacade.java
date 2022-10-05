@@ -3,12 +3,14 @@ package com.kodilla.patterns2.facade.api;
 import com.kodilla.patterns2.facade.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
 @Slf4j
+@EnableAspectJAutoProxy
 public class OrderFacade {
     private final ShopService shopService;
 
