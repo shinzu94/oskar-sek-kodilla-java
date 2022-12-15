@@ -47,37 +47,22 @@ public class StoredProcTestSuite {
         Integer rentId1 = -1;
         Integer rentId2 = -1;
         int howMany = -1;
+        ResultSet resultSet;
         DbManager dbManager = DbManager.getInstance();
+        Statement statement = dbManager.getConnection().createStatement();
         String sqlUpdate = "UPDATE BOOKS SET BESTSELLER=false";
         String sqlInsertBook = "INSERT INTO BOOKS (BOOK_ID, TITLE, PUBYEAR, BESTSELLER)\n" +
                 "VALUES (null, 'test', 200, 0);";
-        String sqlIdentity = "SELECT @@IDENTITY";
 
-        Statement statement = dbManager.getConnection().createStatement();
-        statement.execute(sqlInsertBook);
-        ResultSet resultSet = statement.executeQuery(sqlIdentity);
-
-        resultSet.next();
-        bookId = resultSet.getInt(1);
-        resultSet.close();
+        bookId = executeInsert(statement, sqlInsertBook);
 
         String sqlInsertRent1 = String.format("INSERT INTO RENTS (BOOK_ID, READER_ID, RENT_DATE, RETURN_DATE)\n" +
                 "VALUES (%s, 5, NOW(), null);", bookId);
         String sqlInsertRent2 = String.format("INSERT INTO RENTS (BOOK_ID, READER_ID, RENT_DATE, RETURN_DATE)\n" +
                 "VALUES (%s, 4, NOW(), null);", bookId);
 
-        statement.execute(sqlInsertRent1);
-        resultSet = statement.executeQuery(sqlIdentity);
-        resultSet.next();
-        rentId1 = resultSet.getInt(1);
-        resultSet.close();
-
-
-        statement.execute(sqlInsertRent2);
-        resultSet = statement.executeQuery(sqlIdentity);
-        resultSet.next();
-        rentId2 = resultSet.getInt(1);
-        resultSet.close();
+        rentId1 = executeInsert(statement, sqlInsertRent1);
+        rentId2 = executeInsert(statement, sqlInsertRent2);
 
         statement.executeUpdate(sqlUpdate);
         String sqlCheckTable = "SELECT COUNT(*) AS HOW_MANY FROM BOOKS WHERE BESTSELLER=true";
@@ -100,5 +85,17 @@ public class StoredProcTestSuite {
         statement.execute(String.format("DELETE FROM RENTS WHERE RENT_ID = %s", rentId2));
         statement.execute(String.format("DELETE FROM BOOKS WHERE BOOK_ID = %s", bookId));
         statement.close();
+    }
+
+    private Integer executeInsert(Statement statement, String sqlInsert) throws SQLException {
+        String sqlIdentity = "SELECT @@IDENTITY";
+        Integer id;
+        ResultSet resultSet;
+        statement.execute(sqlInsert);
+        resultSet = statement.executeQuery(sqlIdentity);
+        resultSet.next();
+        id = resultSet.getInt(1);
+        resultSet.close();
+        return id;
     }
 }
