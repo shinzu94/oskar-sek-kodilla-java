@@ -6,6 +6,6 @@ import lombok.Value;
 import java.util.Map;
 
 @Value
-public class ProducerOrderRequest {
+public class OrderRequest {
     Map<Product, Integer> productOrderList;
 }

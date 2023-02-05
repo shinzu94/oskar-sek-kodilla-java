@@ -1,24 +1,32 @@
 package com.kodilla.good.patterns.challenges.food2door.domain.producer.entity;
 
-import com.kodilla.good.patterns.challenges.food2door.domain.order.model.OrderDto;
-import com.kodilla.good.patterns.challenges.food2door.domain.order.model.ProducerOrderRequest;
+import com.kodilla.good.patterns.challenges.food2door.domain.order.model.OrderRequest;
 import com.kodilla.good.patterns.challenges.food2door.domain.producer.entity.producerinfo.ProducerInfo;
 import com.kodilla.good.patterns.challenges.food2door.domain.product.Product;
 import lombok.AllArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @AllArgsConstructor
 public class HealthyShop implements Producer {
+
     private ProducerInfo producerInfo;
-    private Map<Product, ProductsAvailability> productsAvailability;
+
+    private Map<Product, ProductAvailability> productsAvailability;
+
+    public HealthyShop() {
+        productsAvailability = new HashMap<>();
+        producerInfo = new ProducerInfo("HealthyShop");
+    }
 
     @Override
-    public synchronized OrderDto process(ProducerOrderRequest orderRequest) {
+    public synchronized boolean process(OrderRequest orderRequest) {
         if (checkAvailabilitiesOfProducts(orderRequest.getProductOrderList())) {
             changeAvailabilities(orderRequest.getProductOrderList());
+            return false;
         }
-        throw new RuntimeException("Not implemented");
+        return false;
     }
 
     @Override
@@ -27,7 +35,7 @@ public class HealthyShop implements Producer {
     }
 
     @Override
-    public Map<Product, ProductsAvailability> getProductsAvailability() {
+    public Map<Product, ProductAvailability> getProductsAvailability() {
         return productsAvailability;
     }
 
