@@ -44,19 +44,11 @@ public class FlightRepository {
                 new Flight(new Airport(Airport.WARSAW), new Airport(Airport.CRACOW), prepareTime(8, 11), prepareTime(9, 15)),
                 new Flight(new Airport(Airport.WARSAW), new Airport(Airport.KATOWICE), prepareTime(8, 43), prepareTime(9, 47)),
                 new Flight(new Airport(Airport.WARSAW), new Airport(Airport.GDANSK), prepareTime(8, 55), prepareTime(9, 55)),
-                new Flight(new Airport(Airport.WARSAW), new Airport(Airport.WROCLAW), prepareTime(8, 22), prepareTime(10, 55))
-//                ,
-//
-//
-//
-//
-//                new Flight(Airport.CRACOW, Airport.WARSAW, prepareTime(2, 30), prepareTime(3, 30)),
-//                new Flight(Airport.CRACOW, Airport.WARSAW, prepareTime(2, 30), prepareTime(3, 30)),
-//                new Flight(Airport.CRACOW, Airport.WARSAW, prepareTime(2, 30), prepareTime(3, 30)),
-//                new Flight(Airport.CRACOW, Airport.WARSAW, prepareTime(2, 30), prepareTime(3, 30)),
-//                new Flight(Airport.CRACOW, Airport.WARSAW, prepareTime(2, 30), prepareTime(3, 30)),
-//                new Flight(Airport.CRACOW, Airport.WARSAW, prepareTime(2, 30), prepareTime(3, 30)),
-//                new Flight(Airport.CRACOW, Airport.WARSAW, prepareTime(2, 30), prepareTime(3, 30))
+                new Flight(new Airport(Airport.WARSAW), new Airport(Airport.WROCLAW), prepareTime(8, 22), prepareTime(10, 55)),
+
+
+                new Flight(new Airport(Airport.WROCLAW), new Airport(Airport.GDANSK), prepareTime(8, 55), prepareTime(11, 50)),
+                new Flight(new Airport(Airport.WROCLAW), new Airport(Airport.KATOWICE), prepareTime(8, 55), prepareTime(10, 20))
         );
     }
 
