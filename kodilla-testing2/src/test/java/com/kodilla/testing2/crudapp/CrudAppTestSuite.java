@@ -7,8 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -97,8 +100,15 @@ public class CrudAppTestSuite {
         final String XPATH_TASK_NAME = "//form[contains(@action,\"createTask\")]/fieldset[1]/input";
         final String XPATH_TASK_CONTENT = "//form[contains(@action,\"createTask\")]/fieldset[2]/textarea";
         final String XPATH_ADD_BUTTON = "//form[contains(@action,\"createTask\")]/fieldset[3]/button";
-        String taskName = "Task number " + generator.nextInt(100000);
-        String taskContent = taskName + " content";
+        final String taskName = "Task number " + generator.nextInt(100000);
+        final String taskContent = taskName + " content";
+        final String XPATH_REMOVE_LAST_ELEMENT_BUTTON = "//main[contains(@class, 'crud container')]" +
+                "//*[contains(@class, 'datatable__row')]" +
+                "//*[contains(text(), 'Task name')]" +
+                "/.." +
+                String.format("/p[contains(@class, 'datatable__field-value')][contains(text(), '%s')]", taskName) +
+                "/../.." +
+                "//button[@data-task-delete-button]";
 
         WebElement name = driver.findElement(By.xpath(XPATH_TASK_NAME));
         name.sendKeys(taskName);
@@ -108,7 +118,12 @@ public class CrudAppTestSuite {
 
         WebElement addButton = driver.findElement(By.xpath(XPATH_ADD_BUTTON));
         addButton.click();
-        Thread.sleep(2000);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(XPATH_REMOVE_LAST_ELEMENT_BUTTON)));
+
+        WebElement removeButton = driver.findElement(By.xpath(XPATH_REMOVE_LAST_ELEMENT_BUTTON));
+        removeButton.click();
 
         return taskName;
     }
